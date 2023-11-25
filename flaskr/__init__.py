@@ -109,6 +109,7 @@ def check_login(conn, username, password):
 
 # Register a new user
 def register_user(conn, username, password, resolved, maladie, doctor, sex, age):
+    print("Hereinside")
     with conn.cursor() as cur:
         hashed_password = sha256(password.encode()).hexdigest()
         try:
@@ -118,6 +119,10 @@ def register_user(conn, username, password, resolved, maladie, doctor, sex, age)
         except psycopg2.errors.UniqueViolation:
             print("Username already exists")
             conn.rollback()
+            return False
+        else:
+            print("Username is new")
+            return True
 
 @app.route("/validate", methods=["post"])
 def validate():
