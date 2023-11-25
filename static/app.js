@@ -1,23 +1,26 @@
 // Check login status when the page loads
 document.addEventListener('DOMContentLoaded', function() {
   checkLoginStatus();
+  // Redirect or update UI as needed here.
 });
 
 function login() {
   var username = document.getElementById('username').value;
   var password = document.getElementById('password').value;
-  
-  // Simulate a login request to the backend
-  // In a real application, you would make an actual HTTP request to the backend
-  if (username === 'user' && password === 'pass') {
-      // Set a cookie to indicate that the user is logged in
-      document.cookie = 'loggedIn=true; path=/';
-
-      // Redirect or update the UI as needed
-      checkLoginStatus();
-  } else {
-      document.getElementById('loginError').textContent = 'Invalid username or password';
-  }
+  fetch('/validate?username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password), {"method": "POST"})
+        .then(response => response.json())
+        .then(data => {
+            if (data.valid === "success") {
+                document.getElementById('loginError').textContent = 'Username and password are valid!';
+                document.cookie = 'loggedIn=true; path=/';
+                checkLoginStatus();
+            } else {
+                document.getElementById('loginError').textContent = 'Invalid username or password.';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function checkLoginStatus() {
@@ -25,10 +28,11 @@ function checkLoginStatus() {
 
   if (isLoggedIn) {
       // User is logged in, show authenticated content or redirect to a dashboard
-      document.getElementById('loginContainer').innerHTML = '<h2>Welcome, User!</h2>';
+      console.log("here")
+      document.getElementById('login-container').innerHTML = '<h2>Welcome, User!</h2>';
   } else {
       // User is not logged in, show the login form
-      document.getElementById('loginContainer').innerHTML = `
+      document.getElementById('login-container').innerHTML = `
           <h2>Login</h2>
           <form id="loginForm">
               <label for="username">Username:</label>
