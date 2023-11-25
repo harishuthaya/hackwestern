@@ -109,22 +109,25 @@ def check_login(conn, username, password):
 
 # Register a new user
 def register_user(conn, username, password):
+    print("Hereinside")
     with conn.cursor() as cur:
         hashed_password = sha256(password.encode()).hexdigest()
         try:
             cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
             conn.commit()
-            return True
         except psycopg2.errors.UniqueViolation:
             print("Username already exists")
             conn.rollback()
             return False
+        else:
+            print("Username is new")
+            return True
 
 @app.route("/validatelogin", methods=["post"])
 def validatelogin():
     encoded_username = request.args.get('username')
     encoded_password = request.args.get('password')
-    is_valid = auth.check_login(conn, encoded_username, encoded_password)
+    is_valid = check_login(conn, encoded_username, encoded_password)
     print("valid:",is_valid)
     if is_valid:
         return {"valid": "success"}
@@ -135,9 +138,7 @@ def validatelogin():
 def validatesignup():
     encoded_username = request.args.get('username')
     encoded_password = request.args.get('password')
-    is_valid = auth.register_user(conn, encoded_username, encoded_password)
-    print(encoded_username)
-    print(encoded_password)
+    is_valid = register_user(conn, encoded_username, encoded_password)
     print("valid:",is_valid)
     if is_valid:
         return {"valid": "success"}
