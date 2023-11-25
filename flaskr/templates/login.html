@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<style>
+    body {
+        font-family: "San Francisco", 'Times New Roman', Times, serif;
+        background-color: #f4f4f4;
+        margin: -70px;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .login-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 250px;
+        text-align: left;
+        margin-top: 75px; /* Add this line to adjust the top margin */
+    }
+
+    .login-container h2 {
+        color: #333;
+    }
+
+    .login-form {
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #555;
+        text-align: right;
+    }
+
+    button {
+        background-color: rgb(84, 88, 188);
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: 20px;
+        margin-top: 20px;
+    }
+
+    button:hover {
+        background-color: rgb(64, 68, 168);
+    }
+
+    .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+</style>
+
+<center>
+    <div class="login-container" id="login-container">
+        <form class="login-form" action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+            <div class="form-group">
+                <p class="error-message">Error message goes here</p>
+            </div>
+        </form>
+    </div>
+</center>
+
+<script src="{{url_for('static', filename='app.js')}}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const transitionLinks = document.querySelectorAll(".transition-link");
+
+        transitionLinks.forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                document.body.classList.add("fade-out");
+                setTimeout(function () {
+                    window.location.href = e.target.href;
+                }, 500); // Adjust the delay to match the transition duration
+            });
+        });
+    });
+</script>
+
+{% endblock %}
