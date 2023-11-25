@@ -1,0 +1,146 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<style>
+    a{
+        font-family: "San Francisco", 'Times New Roman', Times, serif;
+    }
+    body{
+        margin:0;
+    }
+    .top{
+        top: 0;
+        font-size: 22px;
+    }
+    .top .home{
+        float:left;
+        padding-inline-start: 2%;
+    }
+    .top a:not(.home){
+        float:right;
+        padding-inline-end: 2%;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(45deg, rgba(4, 17.5, 63, 0.231), rgb(16, 70, 250));
+        -webkit-background-clip: text;
+        color: transparent;
+        font-size: 120px;
+        font-family: 'Georgia', serif;
+        margin-top: 10px; 
+        margin-bottom: 0px;
+        text-align: center;
+    } 
+    #description{
+        font-family: 'Georgia', serif;
+        margin-top: 20px;
+        font-size: 28px;
+        border-collapse: collapse;
+    }
+    
+    .button_container {
+        margin-top: 400px;
+        text-align: center;
+        margin-bottom: 200px;
+    }
+
+    button{
+        background-color: rgb(84, 88, 188);
+        border-radius: 10px;
+        border: none;
+        font-size: 40px;
+        text-decoration: none; 
+    }
+
+    button:hover{
+        background-color: rgb(64, 68, 168);
+    }
+    header{
+        background: rgb(190, 230, 250);
+    }
+    
+    .slideshow-container {
+        float: right;
+        margin-right: -10px;
+    }
+
+    .the-paragraph {
+        float: left;
+        margin-bottom: 200px;
+    }
+
+    
+
+</style>
+
+<div> 
+    <center>
+        <h1 class="gradient-text">Medi.Sight</h1>
+        <p id="description"></p>
+    </center>
+    
+    
+    <!-- Slideshow Container -->
+    <div class="slideshow-container" style="max-width: 50%;">
+        <div class="mySlides">
+            <img src="../static/image1.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        <div class="mySlides">
+            <img src="../static/image2.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        <div class="mySlides">
+            <img src="../static/image3.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        <div class="mySlides">
+            <img src="../static/image4.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        
+    </div>
+
+    <div class="the-paragraph" style="max-width: 50%;">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi voluptatibus reiciendis, voluptates at velit neque amet est aliquam dolores, explicabo iste perspiciatis debitis esse officiis? Amet architecto libero possimus ducimus!</p>
+    </div> -->
+</div>
+    
+
+<script>
+    // JavaScript for the typewriter effect
+    const textElement = document.getElementById('description');
+    const textToType = "Revolutionizing healthcare, one patient at a time.";
+    let index = 0;
+
+    function typeWriter() {
+        if (index < textToType.length) {
+            textElement.innerHTML += textToType.charAt(index);
+            index++;
+            setTimeout(typeWriter, 100); // Adjust the delay between characters (in milliseconds)
+        }
+    }
+
+    // Start the typewriter effect when the page loads
+    window.onload = function() {
+        typeWriter();
+    }
+        // JavaScript for the image slideshow
+        let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    let i;
+    const slides = document.getElementsByClassName("mySlides");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {
+        slideIndex = 1;
+    }
+    slides[slideIndex - 1].style.display = "block";
+    setTimeout(showSlides, 3000); // Change image every 5 seconds
+}
+
+</script>
+
+{% endblock %}
+

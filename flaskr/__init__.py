@@ -1,11 +1,11 @@
 import os
 import requests
-from flask import Flask, request
+from flask import Flask, request, render_template
 import json
 import psycopg2
 from psycopg2 import sql
 from hashlib import sha256
-import auth
+import auth as auth
 
 app = Flask(__name__)
 
@@ -114,34 +114,30 @@ def register_user(conn, username, password):
         try:
             cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
             conn.commit()
+            return True
         except psycopg2.errors.UniqueViolation:
             print("Username already exists")
             conn.rollback()
+            return False
 
-@app.route("/validate", methods=["post"])
-def validate():
+@app.route("/validatelogin", methods=["post"])
+def validatelogin():
     encoded_username = request.args.get('username')
-    decoded_username = unquote(encoded_username)
     encoded_password = request.args.get('password')
-    decoded_password = unquote(encoded_password)
-    is_valid = auth.check_login(conn, decoded_username, decoded_password)
-    print(decoded_username)
-    print(decoded_password)
+    is_valid = auth.check_login(conn, encoded_username, encoded_password)
     print("valid:",is_valid)
     if is_valid:
         return {"valid": "success"}
     else:
         return {"valid": "failure"}
     
-@app.route("/registeruser", methods=["post"])
-def registeruser():
+@app.route("/validatesignup", methods=["post"])
+def validatesignup():
     encoded_username = request.args.get('username')
-    decoded_username = unquote(encoded_username)
     encoded_password = request.args.get('password')
-    decoded_password = unquote(encoded_password)
-    is_valid = auth.check_login(conn, decoded_username, decoded_password)
-    print(decoded_username)
-    print(decoded_password)
+    is_valid = auth.register_user(conn, encoded_username, encoded_password)
+    print(encoded_username)
+    print(encoded_password)
     print("valid:",is_valid)
     if is_valid:
         return {"valid": "success"}
@@ -178,11 +174,6 @@ def create_users_table(conn):
 def main():
     conn = connect_db(db_config)
     create_users_table(conn)
-
-"""    # Example usage
-    register_user(conn, 'test', 'test')
-    login_success = check_login(conn, 'test', 'test')
-    print("Login successful:", login_success)"""
 
 if __name__ == '__main__':
     main()
