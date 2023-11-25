@@ -108,12 +108,13 @@ def check_login(conn, username, password):
         return False
 
 # Register a new user
-def register_user(conn, username, password):
+def register_user(conn, username, password, resolved, maladie, doctor, sex, age):
     print("Hereinside")
     with conn.cursor() as cur:
         hashed_password = sha256(password.encode()).hexdigest()
         try:
-            cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
+            cur.execute("INSERT INTO users (username, password_hash, resolved, maladie, doctor, sex, age, email) VALUES (%s, %s, %d, %s, %d, %s, %d, %s)", 
+                        (username, hashed_password, resolved, maladie, doctor, sex, age))
             conn.commit()
         except psycopg2.errors.UniqueViolation:
             print("Username already exists")
