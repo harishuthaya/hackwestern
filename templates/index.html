@@ -1,0 +1,144 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<style>
+    a{
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    body{
+        margin:0;
+    }
+    .top{
+        top: 0;
+        font-size: 22px;
+    }
+    .top .home{
+        float:left;
+        padding-inline-start: 2%;
+    }
+    .top a:not(.home){
+        float:right;
+        padding-inline-end: 2%;
+    }
+    
+    .gradient-text {
+        background: linear-gradient(45deg, rgba(4, 17.5, 63, 0.231), rgb(16, 70, 250));
+        -webkit-background-clip: text;
+        color: transparent;
+        font-size: 120px;
+        font-family: 'Georgia', serif;
+        margin-top: 10px; 
+        margin-bottom: 0px;
+        text-align: center;
+    } 
+    #description{
+        font-family: 'Georgia', serif;
+        margin-top: 20px;
+        font-size: 28px;
+        border-collapse: collapse;
+    }
+    
+    .button_container {
+        text-align: right;
+    }
+
+    button{
+        background-color: rgb(190, 230, 250);
+        border-radius: 10px;
+        color: rgb(224, 184, 184);
+        border: none;
+        font-size: 24px;
+        text-decoration: none; 
+    }
+
+    button:hover{
+        background-color: rgb(180, 220, 240);
+    }
+    header{
+        background: rgb(190, 230, 250);
+    }
+    
+    .slideshow-container {
+        float: right;
+        margin-right: 100px;
+        border-radius: 100px;
+    }
+    
+
+</style>
+
+<div class="top">
+    <a class="home" href="index.html" style='text-decoration:none;' >Home</a>
+    <a href="login.html" style='text-decoration:none;' >Log In</a>
+    <a href="signup.html" style='text-decoration:none;'>Sign Up</a>
+
+
+    
+</div>
+
+<div> 
+    <center>
+        <!-- <h3 class="login-button" align="right">Log In</h3>
+        <h3 class="signup-button" align="right">Sign Up</h3> -->
+        <h1 class="gradient-text">Medi.Sight</h1>
+        <p id="description"></p>
+    </center>
+    
+    <!-- Slideshow Container -->
+    <div class="slideshow-container" style="max-width: 40%;">
+        <div class="mySlides">
+            <img src="https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" style="border-radius:10px; width: 100%; height: auto;">
+        </div>
+        <div class="mySlides">
+            <img src="https://images.pexels.com/photos/5408919/pexels-photo-5408919.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" style="border-radius:10px; width: 100%; height: auto;">
+        </div>
+        <div class="mySlides">
+            <img src="https://images.pexels.com/photos/247819/pexels-photo-247819.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" style="border-radius:10px; width: 100%; height: auto;">
+        </div>
+    </div>
+    
+
+</div>
+    
+
+<script>
+    // JavaScript for the typewriter effect
+    const textElement = document.getElementById('description');
+    const textToType = "Revolutionizing Medicine";
+    let index = 0;
+
+    function typeWriter() {
+        if (index < textToType.length) {
+            textElement.innerHTML += textToType.charAt(index);
+            index++;
+            setTimeout(typeWriter, 100); // Adjust the delay between characters (in milliseconds)
+        }
+    }
+
+    // Start the typewriter effect when the page loads
+    window.onload = function() {
+        typeWriter();
+    }
+        // JavaScript for the image slideshow
+        let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    let i;
+    const slides = document.getElementsByClassName("mySlides");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {
+        slideIndex = 1;
+    }
+    slides[slideIndex - 1].style.display = "block";
+    setTimeout(showSlides, 3000); // Change image every 5 seconds
+}
+
+</script>
+
+{% endblock %}
+
