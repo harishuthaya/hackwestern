@@ -68,8 +68,19 @@
         margin-top: 5px;
     }
 
+    .upload-container {
+        display: none;
+        margin-bottom: 20px;
+        /* Hide the upload container by default */
+    }
+
     .upload-container label {
-        display: none; /* Hide the "Upload a Photo" text initially */
+        display: none;
+        /* Hide the "Choose a photo" text by default */
+    }
+    .checkbox{
+        float:right;
+        margin-top: -25px;
     }
 </style>
 
@@ -109,8 +120,11 @@
 
             <div class="form-group">
                 <label for="upload-checkbox">Are you a Practitioner?</label>
-                <input type="checkbox" id="upload-checkbox" name="upload-checkbox" onchange="toggleUploadContainer()">
+                <div class="checkbox">
+                    <input type="checkbox" id="upload-checkbox" name="upload-checkbox" onchange="toggleUploadContainer()">
+                </div>
             </div>
+
             <div class="upload-container" id="upload-container">
                 <label for="photo">Choose a photo:</label>
                 <input type="file" id="photo" name="photo" accept="image/*">
@@ -128,24 +142,14 @@
         function toggleUploadContainer() {
             var uploadContainer = document.getElementById('upload-container');
             var uploadCheckbox = document.getElementById('upload-checkbox');
-            var uploadLabel = uploadContainer.querySelector('label');
 
             if (uploadCheckbox.checked) {
-                uploadLabel.style.display = 'block'; /* Show the "Upload a Photo" text */
                 uploadContainer.style.display = 'block'; /* Show the upload container */
             } else {
-                uploadLabel.style.display = 'none'; /* Hide the "Upload a Photo" text */
                 uploadContainer.style.display = 'none'; /* Hide the upload container */
             }
         }
-
-        function uploadPhoto() {
-            // Implement your logic to handle the photo upload here
-            // For example, you can use JavaScript to trigger a file input click
-            document.getElementById('photo').click();
-        }
     </script>
-
 </center>
 
 {% endblock %}
