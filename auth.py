@@ -52,8 +52,8 @@ def main():
     create_users_table(conn)
 
     # Example usage
-    register_user(conn, 'testuser', 'testpassword')
-    login_success = check_login(conn, 'testuser', 'testpassword')
+    register_user(conn, 'test', 'test')
+    login_success = check_login(conn, 'test', 'test')
     print("Login successful:", login_success)
 
 if __name__ == '__main__':
