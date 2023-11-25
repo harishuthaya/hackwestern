@@ -2,6 +2,9 @@ import os
 import requests
 from flask import Flask, request
 import json
+import psycopg2
+from psycopg2 import sql
+from hashlib import sha256
 
 app = Flask(__name__)
 
@@ -74,3 +77,115 @@ def get_metered_domain():
 @app.route("/")
 def index():
     return "Backend"
+
+
+DEVELOPMENT_ENV = True
+conn = auth.connect_db(auth.db_config)
+auth.create_users_table(conn)
+text_content = ""
+
+app_data = {
+    "name": "medi-sight"
+}
+
+@app.route("/")
+def index():
+    return render_template("index.html", app_data=app_data)
+
+@app.route("/login")
+def login():
+    return render_template("login.html", app_data=app_data)
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html", app_data=app_data)
+
+@app.route("/validate", methods=["post"])
+def validate():
+    encoded_username = request.args.get('username')
+    decoded_username = unquote(encoded_username)
+    encoded_password = request.args.get('password')
+    decoded_password = unquote(encoded_password)
+    is_valid = auth.check_login(conn, decoded_username, decoded_password)
+    print(decoded_username)
+    print(decoded_password)
+    print("valid:",is_valid)
+    if is_valid:
+        return {"valid": "success"}
+    else:
+        return {"valid": "failure"}
+    
+@app.route("/registeruser", methods=["post"])
+def registeruser():
+    encoded_username = request.args.get('username')
+    decoded_username = unquote(encoded_username)
+    encoded_password = request.args.get('password')
+    decoded_password = unquote(encoded_password)
+    is_valid = auth.check_login(conn, decoded_username, decoded_password)
+    print(decoded_username)
+    print(decoded_password)
+    print("valid:",is_valid)
+    if is_valid:
+        return {"valid": "success"}
+    else:
+        return {"valid": "failure"}
+    
+    
+# Database configuration
+db_config = {
+    'host': '34.130.250.144',
+    'dbname': 'members',
+    'user': 'postgres',
+    'password': 'hack@&w123'
+}
+
+# Establish a connection to the database
+def connect_db(config):
+    return psycopg2.connect(**config)
+
+# Create users table
+def create_users_table(conn):
+    with conn.cursor() as cur:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(50) UNIQUE NOT NULL,
+                password_hash VARCHAR(64) NOT NULL
+            )
+        """)
+        conn.commit()
+
+# Register a new user
+def register_user(conn, username, password):
+    with conn.cursor() as cur:
+        hashed_password = sha256(password.encode()).hexdigest()
+        try:
+            cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
+            conn.commit()
+        except psycopg2.errors.UniqueViolation:
+            print("Username already exists")
+            conn.rollback()
+
+# Check login credentials
+def check_login(conn, username, password):
+    with conn.cursor() as cur:
+        cur.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
+        result = cur.fetchone()
+        if result and result[0] == sha256(password.encode()).hexdigest():
+            return True
+        return False
+
+"""
+# Main function to test the login system
+def main():
+    conn = connect_db(db_config)
+    create_users_table(conn)
+
+    # Example usage
+    register_user(conn, 'test', 'test')
+    login_success = check_login(conn, 'test', 'test')
+    print("Login successful:", login_success)
+    """
+
+if __name__ == '__main__':
+    main()
