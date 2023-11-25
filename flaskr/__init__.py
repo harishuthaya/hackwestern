@@ -106,6 +106,10 @@ def login():
 def signup():
     return render_template("signup.html", app_data=app_data)
 
+@app.route("/doctordash")
+def doctordash():
+    return render_template("dashboard.html", app_data=app_data, issue="hello")
+
 
 # Establish a connection to the database
 def connect_db(config):

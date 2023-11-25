@@ -1,39 +1,37 @@
 <!DOCTYPE html>
 <html>
+<style>
+    table, th, td {
+        border:1px solid black;
+    }
+</style>
 <head>
     <title>Doctor Dashboard</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="sidebar">
-        <ul>
-            <li>Sessions
-                <ul>
-                    <li>Patient 1</li>
-                    <li>Patient 2</li>
-                    <li>Patient 3</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    <div class="profile">
-        <!-- Profile picture -->
-        <img src="profile-pic-url" alt="Profile Picture" class="profile-pic">
-        <!-- Dropdown menu -->
-        <select onchange="location = this.value;">
-            <option value="">--Select--</option>
-            <option value="/logout">Logout</option>
-        </select>
-    </div>
-    <div class="main-content">
-        <h2>Unresolved Issues</h2>
-        <ul>
-            {% for issue in issues %}
-            <li>{{ issue }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <script src="{{url_for('static', filename='doctordash.js')}}"></script>
+    <h1>Doctor Dashboard</h1>
+    <h2>Unresolved Patients</h2>
+    <table style="width:100%">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Sex</th>
+          <th>Maladie</th>
+          <th>Country</th>
+          <th>Meeting</th>
+        </tr>
+        <tr>
+          <td>User 1</td>
+          <td>mail.com</td>
+          <td>30</td>
+          <th>Female</th>
+          <th>Coughitis</th>
+          <th>Canada</th>
+          <td><a href="javascript:void(0)" onclick="connectFunction()">Connect</a></td>
+        </tr>
+    </table>
 </body>
 
 </html>
