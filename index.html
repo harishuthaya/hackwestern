@@ -1,1 +1,77 @@
-!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>medi.sight</title>
+    <style>
+        .gradient-text {
+            background: linear-gradient(45deg, rgba(4, 17.5, 63, 0.231), rgb(16, 70, 250));
+            -webkit-background-clip: text;
+            color: transparent;
+            font-size: 120px;
+            margin-top: 150px; 
+            margin-bottom: 0px;
+            font-family: 'Georgia', serif;
+        } 
+        #description{
+            font-family: 'Georgia', serif;
+            margin-top: 20px;
+            font-size: 28px;
+            border-collapse: collapse;
+        }
+        
+        .buttons{
+            text-align: right;
+            /* background-color: rgb(16, 70, 250);  */
+            border-radius: 10px;
+            color: rgb(255, 0, 0);
+            border: none;
+            font-size: 24px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <!--buttons-->
+    <div class="buttons">
+        <button type="button">Log In</button>
+        <button type="button">Sign Up</button>
+    </div>
+
+    <div> 
+        <center>
+            <!-- <h3 class="login-button" align="right">Log In</h3>
+            <h3 class="signup-button" align="right">Sign Up</h3> -->
+            <h1 class="gradient-text">Medi.Sight</h1>
+            <p id="description"></p>
+        </center>
+
+        
+       
+    </div>
+    
+
+    <script>
+        // JavaScript for the typewriter effect
+        const textElement = document.getElementById('description');
+        const textToType = "Revolutionizing Medicine";
+        let index = 0;
+
+        function typeWriter() {
+            if (index < textToType.length) {
+                textElement.innerHTML += textToType.charAt(index);
+                index++;
+                setTimeout(typeWriter, 100); // Adjust the delay between characters (in milliseconds)
+            }
+        }
+
+        // Start the typewriter effect when the page loads
+        window.onload = function() {
+            typeWriter();
+        }
+    </script>
+</body>
+</html>
+
