@@ -24,6 +24,10 @@ def login():
 def signup():
     return render_template("signup.html", app_data=app_data)
 
+@app.route("/patient")
+def patient():
+    return render_template("patient.html", app_data=app_data)
+
 @app.route("/validate", methods=["post"])
 def validate():
     encoded_username = request.args.get('username')
