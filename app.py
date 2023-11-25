@@ -39,8 +39,8 @@ def validate():
     else:
         return {"valid": "failure"}
     
-@app.route("/validate", methods=["post"])
-def validate():
+@app.route("/registeruser", methods=["post"])
+def registeruser():
     encoded_username = request.args.get('username')
     decoded_username = unquote(encoded_username)
     encoded_password = request.args.get('password')
