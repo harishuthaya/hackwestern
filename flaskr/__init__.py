@@ -1,6 +1,7 @@
 import os
 import requests
 from flask import Flask, request
+import json
 
 app = Flask(__name__)
 
@@ -9,12 +10,12 @@ METERED_SECRET_KEY = os.environ.get("METERED_SECRET_KEY")
 # Metered Domain
 METERED_DOMAIN = os.environ.get("METERED_DOMAIN")
 
-url = "https://" + METERED_DOMAIN + "/api/v1/room/" + "?secretKey=" + METERED_SECRET_KEY
-
-
 # API Route to create a meeting room
 @app.route("/api/create/room", methods=['POST'])
 def create_room():
+    
+    url = "https://" + METERED_DOMAIN + "/api/v1/room/" + "?secretKey=" + METERED_SECRET_KEY
+    
     payload = {
     "privacy": "public",
     "ejectAtRoomExp": False,
@@ -39,7 +40,9 @@ def create_room():
 }
         
     r = requests.post(url, json=payload, headers=headers)
-    return r.json()
+    x = r.json()
+    return x["roomName"]
+
 
 
 # API Route to validate meeting

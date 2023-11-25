@@ -1,4 +1,9 @@
 import requests
-import flaskr.__init__ as rtc
+import json
+from rich import print
+import webbrowser as wb
 
-# waiting on front end
+r = requests.post('http://localhost:5000/api/create/room')
+print(r.text)
+link = 'doctor.metered.live/' + r.text
+print(link)
