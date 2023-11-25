@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li>Sessions
+                <ul>
+                    <li>Patient 1</li>
+                    <li>Patient 2</li>
+                    <li>Patient 3</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="profile">
+        <!-- Profile picture -->
+        <img src="profile-pic-url" alt="Profile Picture" class="profile-pic">
+        <!-- Dropdown menu -->
+        <select onchange="location = this.value;">
+            <option value="">--Select--</option>
+            <option value="/logout">Logout</option>
+        </select>
+    </div>
+    <div class="main-content">
+        <h2>Unresolved Issues</h2>
+        <ul>
+            {% for issue in issues %}
+            <li>{{ issue }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

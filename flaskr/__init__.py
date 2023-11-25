@@ -1,16 +1,25 @@
 import os
 import requests
-from flask import Flask, request
+from flask import Flask, request, render_template
 import json
 import psycopg2
 from psycopg2 import sql
 from hashlib import sha256
 import auth
+from urllib.parse import unquote
 
 app = Flask(__name__)
 
 app_data = {
     "name": "medi-sight"
+}
+
+# Database configuration
+db_config = {
+    'host': '34.130.250.144',
+    'dbname': 'members',
+    'user': 'postgres',
+    'password': 'hack@&w123'
 }
 
 # Metered Secret Key
@@ -98,6 +107,27 @@ def signup():
     return render_template("signup.html", app_data=app_data)
 
 
+# Establish a connection to the database
+def connect_db(config):
+    return psycopg2.connect(**config)
+
+
+def get_unresolved_issues():
+    conn = conn = connect_db(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM issues WHERE resolved = False")
+    issues = cur.fetchall()
+    cur.close()
+    conn.close()
+    return issues
+
+@app.route("/med/dashboard")
+def dashboard():
+    unresolved_issues = get_unresolved_issues()
+    return render_template('dashboard.html', issues=unresolved_issues)
+
+
+
 # Check login credentials
 def check_login(conn, username, password):
     with conn.cursor() as cur:
@@ -149,17 +179,8 @@ def registeruser():
         return {"valid": "failure"}
     
     
-# Database configuration
-db_config = {
-    'host': '34.130.250.144',
-    'dbname': 'members',
-    'user': 'postgres',
-    'password': 'hack@&w123'
-}
 
-# Establish a connection to the database
-def connect_db(config):
-    return psycopg2.connect(**config)
+
 
 # Create users table
 def create_users_table(conn):
@@ -174,15 +195,13 @@ def create_users_table(conn):
         conn.commit()
 
 
-# Main function to test the login system
+"""# Main function to test the login system
 def main():
     conn = connect_db(db_config)
     create_users_table(conn)
 
-"""    # Example usage
+   # Example usage
     register_user(conn, 'test', 'test')
     login_success = check_login(conn, 'test', 'test')
-    print("Login successful:", login_success)"""
-
-if __name__ == '__main__':
-    main()
+    print("Login successful:", login_success)
+"""
