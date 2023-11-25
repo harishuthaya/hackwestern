@@ -155,6 +155,15 @@ def create_users_table(conn):
         """)
         conn.commit()
 
+# Check login credentials
+def check_login(conn, username, password):
+    with conn.cursor() as cur:
+        cur.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
+        result = cur.fetchone()
+        if result and result[0] == sha256(password.encode()).hexdigest():
+            return True
+        return False
+
 # Register a new user
 def register_user(conn, username, password):
     with conn.cursor() as cur:
@@ -166,14 +175,6 @@ def register_user(conn, username, password):
             print("Username already exists")
             conn.rollback()
 
-# Check login credentials
-def check_login(conn, username, password):
-    with conn.cursor() as cur:
-        cur.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
-        result = cur.fetchone()
-        if result and result[0] == sha256(password.encode()).hexdigest():
-            return True
-        return False
 
 """
 # Main function to test the login system
@@ -185,7 +186,7 @@ def main():
     register_user(conn, 'test', 'test')
     login_success = check_login(conn, 'test', 'test')
     print("Login successful:", login_success)
-    """
 
 if __name__ == '__main__':
     main()
+"""
