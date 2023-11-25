@@ -7,6 +7,9 @@ from psycopg2 import sql
 from hashlib import sha256
 import auth
 from urllib.parse import unquote
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -26,6 +29,7 @@ db_config = {
 METERED_SECRET_KEY = os.environ.get("METERED_SECRET_KEY")
 # Metered Domain
 METERED_DOMAIN = os.environ.get("METERED_DOMAIN")
+print("metereddomain:", METERED_DOMAIN)
 
 # API Route to create a meeting room
 @app.route("/api/create/room", methods=['POST'])
@@ -58,7 +62,7 @@ def create_room():
         
     r = requests.post(url, json=payload, headers=headers)
     x = r.json()
-    return x["roomName"]
+    return {'roomName': x["roomName"]}
 
 
 

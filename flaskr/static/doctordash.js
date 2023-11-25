@@ -6,37 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
   // Redirect or update UI as needed here.
 });
 
-function signup(event) {
-  event.preventDefault()
-  var username = document.getElementById('username').value;
-  var password = document.getElementById('password').value;
-  var resolved = false
-  // var maladie = document.getElementById('maladie').value;
-  // var doctor = document.getElementById('doctor').value;
-  var gender = document.getElementById('gender').value;
-  var age = document.getElementById('dob').value;
-  // var email = document.getElementById('email').value;
-  console.log("resolved" + resolved + " " + typeof resolved)
-  // console.log("resolved" + maladie + " " + typeof maladie)
-  // console.log("resolved" + doctor + " " + typeof doctor)
-  console.log("gender" + gender + " " + typeof gender)
-  console.log("age" + age + " " + typeof age)
-  // console.log("resolved" + email + " " + typeof email)
-  fetch('/validatesignup?username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password), {"method": "POST"})
+function connectToVideo() {
+  fetch('/api/create/room', {"method": "POST"})
         .then(response => response.json())
         .then(data => {
-            if (data.valid === "success") {
-                document.getElementById('signupError').textContent = 'Username and password are valid!';
-                document.cookie = 'loggedIn=true; path=/';
-                console.log("Success")
-                checkLoginStatus();
-            } else {
-                document.getElementById('signupError').textContent = 'That username is already taken.';
-                console.log("Fail")
-            }
+            window.open("https://doctor.metered.live/"+data.roomName)
+            // console.log("doctor.metered.live/" + data.roomName)
+            // console.log(data.roomName)
         })
         .catch(error => {
-            console.log('Error:', error);
+            console.log(error);
         });
 }
 
