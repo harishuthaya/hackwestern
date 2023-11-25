@@ -4,7 +4,7 @@
 
 <style>
     a{
-        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-family: San Francisco, 'Times New Roman', Times, serif;
     }
     body{
         margin:0;
@@ -40,20 +40,21 @@
     }
     
     .button_container {
-        text-align: right;
+        margin-top: 400px;
+        text-align: center;
+        margin-bottom: 200px;
     }
 
     button{
-        background-color: rgb(190, 230, 250);
+        background-color: rgb(84, 88, 188);
         border-radius: 10px;
-        color: rgb(224, 184, 184);
         border: none;
-        font-size: 24px;
+        font-size: 40px;
         text-decoration: none; 
     }
 
     button:hover{
-        background-color: rgb(180, 220, 240);
+        background-color: rgb(64, 68, 168);
     }
     header{
         background: rgb(190, 230, 250);
@@ -61,9 +62,14 @@
     
     .slideshow-container {
         float: right;
-        margin-right: 100px;
-        border-radius: 100px;
+        margin-right: -10px;
     }
+
+    .the-paragraph {
+        float: left;
+        margin-bottom: 200px;
+    }
+
     
 
 </style>
@@ -77,23 +83,31 @@
         <p id="description"></p>
     </center>
     
-    <!-- Slideshow Container -->
-    <div class="slideshow-container" style="max-width: 40%;">
-        <div class="mySlides">
-            <img src="../static/image1.png" style="border-radius:10px; width: 100%; height: auto;">
-        </div>
-        <div class="mySlides">
-            <img src="../static/image2.png" style="border-radius:10px; width: 100%; height: auto;">
-        </div>
-        <div class="mySlides">
-            <img src="../static/image3.png" style="border-radius:10px; width: 100%; height: auto;">
-        </div>
-        <div class="mySlides">
-            <img src="../static/image4.png" style="border-radius:10px; width: 100%; height: auto;">
-        </div>
-    </div>
     
+    <!-- Slideshow Container -->
+    <div class="slideshow-container" style="max-width: 50%;">
+        <div class="mySlides">
+            <img src="../static/image1.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        <div class="mySlides">
+            <img src="../static/image2.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        <div class="mySlides">
+            <img src="../static/image3.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        <div class="mySlides">
+            <img src="../static/image4.png" style="border-radius:10px; width: 100%; height: 300px;">
+        </div>
+        
+    </div>
 
+    <div class="the-paragraph" style="max-width: 50%;">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi voluptatibus reiciendis, voluptates at velit neque amet est aliquam dolores, explicabo iste perspiciatis debitis esse officiis? Amet architecto libero possimus ducimus!</p>
+    </div>
+
+    <div class="button_container">
+        <button><a href="signup.html" style="text-decoration: none; color:#ffffff">Get Started</a></button>
+    </div>
 </div>
     
 
