@@ -5,8 +5,13 @@ import json
 import psycopg2
 from psycopg2 import sql
 from hashlib import sha256
+import auth
 
 app = Flask(__name__)
+
+app_data = {
+    "name": "medi-sight"
+}
 
 # Metered Secret Key
 METERED_SECRET_KEY = os.environ.get("METERED_SECRET_KEY")
@@ -74,19 +79,11 @@ def get_metered_domain():
     return {"METERED_DOMAIN": METERED_DOMAIN}
 
 
-@app.route("/")
-def index():
-    return "Backend"
-
-
 DEVELOPMENT_ENV = True
 conn = auth.connect_db(auth.db_config)
 auth.create_users_table(conn)
 text_content = ""
 
-app_data = {
-    "name": "medi-sight"
-}
 
 @app.route("/")
 def index():
@@ -99,6 +96,27 @@ def login():
 @app.route("/signup")
 def signup():
     return render_template("signup.html", app_data=app_data)
+
+
+# Check login credentials
+def check_login(conn, username, password):
+    with conn.cursor() as cur:
+        cur.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
+        result = cur.fetchone()
+        if result and result[0] == sha256(password.encode()).hexdigest():
+            return True
+        return False
+
+# Register a new user
+def register_user(conn, username, password):
+    with conn.cursor() as cur:
+        hashed_password = sha256(password.encode()).hexdigest()
+        try:
+            cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
+            conn.commit()
+        except psycopg2.errors.UniqueViolation:
+            print("Username already exists")
+            conn.rollback()
 
 @app.route("/validate", methods=["post"])
 def validate():
@@ -155,38 +173,16 @@ def create_users_table(conn):
         """)
         conn.commit()
 
-# Check login credentials
-def check_login(conn, username, password):
-    with conn.cursor() as cur:
-        cur.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
-        result = cur.fetchone()
-        if result and result[0] == sha256(password.encode()).hexdigest():
-            return True
-        return False
 
-# Register a new user
-def register_user(conn, username, password):
-    with conn.cursor() as cur:
-        hashed_password = sha256(password.encode()).hexdigest()
-        try:
-            cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
-            conn.commit()
-        except psycopg2.errors.UniqueViolation:
-            print("Username already exists")
-            conn.rollback()
-
-
-"""
 # Main function to test the login system
 def main():
     conn = connect_db(db_config)
     create_users_table(conn)
 
-    # Example usage
+"""    # Example usage
     register_user(conn, 'test', 'test')
     login_success = check_login(conn, 'test', 'test')
-    print("Login successful:", login_success)
+    print("Login successful:", login_success)"""
 
 if __name__ == '__main__':
     main()
-"""
