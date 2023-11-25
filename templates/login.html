@@ -4,9 +4,9 @@
 
 <style>
     body {
-        font-family: "San-Francisco", sans-serif;
+        font-family: "San Francisco", 'Times New Roman', Times, serif;
         background-color: #f4f4f4;
-        margin: 0;
+        margin-top: -45px;
         padding: 0;
         display: flex;
         justify-content: center;
@@ -20,7 +20,6 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         width: 300px;
-        align-items: center;
     }
 
     label {
@@ -46,25 +45,36 @@
 
     button:hover {
         background-color: rgb(64, 68, 168);
-    }
+    }   
     .container {
-        float: center;
+        /* float: center; */
+        margin:0 auto; /*center container?*/
+    }
+    .left {
+        text-align: left;
     }
 </style>
 
+<center>
     <div class="container">
     <form action="/submit_login" method="post">
+        <div class="left">
         <h2>Login</h2>
-    
         <label for="username">Username:</label>
+        </div>
         <input type="text" id="username" name="username" required>
-    
-        <label for="password">Password:</label>
+        
+        <div class="left">
+            <label for="password">Password:</label> 
+        </div>
+
         <input type="password" id="password" name="password" required>
-    
+        <div class="left">
         <button type="submit">Login</button>
+        </div>
     </form>
 </div>
+</center>
 
 <script>     
 document.addEventListener("DOMContentLoaded", function () {
