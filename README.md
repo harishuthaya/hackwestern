@@ -1,5 +1,4 @@
 ![](https://i.imgur.com/pe1O565.png)
-Medisight.co
 =======================
 
 **Live Demo**: [Link](http:127.0.0.1:5000)
