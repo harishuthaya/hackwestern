@@ -37,7 +37,7 @@
       </p>
       <div class="password">
         <div class="text-wrapper-4">Password</div>
-        <input type="text" id="password" name="password" required>
+        <input type="password" id="password" name="password" required>
       </div>
       <div class="text-wrapper-6">Date of Birth</div>
       
@@ -55,7 +55,7 @@
         <span class="text-wrapper-10">.</span>
       </p>
       
-        <div class="text-wrapper-11">Sexe</div>
+        <div class="text-wrapper-11">Sex</div>
           <input type="text" id="sexe" name="sexe" class="rectangle-3" required>
       
       
@@ -63,13 +63,15 @@
       <div class="text-wrapper-6">Date of Birth</div>
         <input type="date" id="dob" name="dob" class="rectangle-2" required>
       <div class="rectangle-4"></div>
-      <img class="untitled" src="../static/untitled-1.png" />
+      
       <img class="undraw-doctor-kw-l" src="../static/undraw-doctor-kw-5-l-1.svg" />
-      <div class="rectangle-5"></div>
-      <div class="rectangle-6"></div>
+      <img class="untitled" src="../static/untitled-1.png" />
       <img class="broken-bone" src="../static/broken-bone-1-1.png" />
-      <img class="stethoscope-icon" src="../static/stethoscope-icon-icons.png" />
-      <div class="text-wrapper-12">Create Medisight Account</div>
+      <button id="button1" class="button1" onclick="toggleButton(1)">Patient</button>
+      <button id="button2" class="button2" onclick="toggleButton(2)">Practitioner</button>
+      
+      <!-- <div class="text-wrapper-12">Create Medisight Account</div> -->
+      <button id="rectangle-4" class="rectangle-4">Create Medisight Account</button>
       <div class="text-wrapper-13">Made with ❤️</div>
     </div>
   </div>
@@ -369,14 +371,20 @@
     border-color: #dadada;
   }
   
-  .signup .rectangle-4 {
+  .rectangle-4 {
     position: absolute;
     width: 383px;
     height: 42px;
     top: 799px;
     left: 207px;
     background-color: #0970e9;
+    color: #ffffff;
     border-radius: 7px;
+    cursor: pointer;
+  }
+  .rectangle-4:hover{
+    background-color: rgba(63, 63, 241, 0.789);
+    color: #ffffff;
   }
   
   .signup .untitled {
@@ -396,23 +404,27 @@
     left: 680px;
   }
   
-  .signup .rectangle-5 {
+  .button1 {
     position: absolute;
     width: 173px;
     height: 42px;
     top: 665px;
     left: 207px;
+    cursor: pointer;
     background-color: #0970e9;
+    color:#ffffff;
     border-radius: 7px;
   }
   
-  .signup .rectangle-6 {
+  .button2 {
     position: absolute;
     width: 173px;
     height: 42px;
     top: 665px;
     left: 417px;
+    cursor: pointer;
     background-color: #0970e9;
+    color:#ffffff;
     border-radius: 7px;
   }
   
@@ -475,5 +487,39 @@
     letter-spacing: 0;
     line-height: normal;
   }
+  .button1.active,
+        .button2.active {
+            background-color: rgb(137, 169, 240);
+            color:#ffffff;
+        }
+
+        .button-img {
+            width: 50px; /* Adjust the width of the image */
+            height: 50px; /* Adjust the height of the image */
+        }
   </style>
+
+      <script>
+        var activeButton = null;
+
+        function toggleButton(buttonNumber) {
+            var button = document.getElementById("button" + buttonNumber);
+
+            // If the clicked button is already active, deactivate it
+            if (button === activeButton) {
+                button.classList.remove("active");
+                activeButton = null;
+            } else {
+                // Deactivate the currently active button (if any)
+                if (activeButton) {
+                    activeButton.classList.remove("active");
+                }
+
+                // Activate the clicked button
+                button.classList.add("active");
+                activeButton = button;
+            }
+        }
+    </script>
+
 {% endblock %}
