@@ -113,6 +113,10 @@ def login():
 def signup():
     return render_template("signup.html", app_data=app_data)
 
+@app.route("/patient")
+def patient():
+    return render_template("patient.html", app_data=app_data)
+
 
 # Establish a connection to the database
 def connect_db(config):
@@ -171,15 +175,21 @@ def check_login(conn, username, password):
         return False
 
 # Register a new user
-def register_user(conn, username, password):
+def register_user(conn, username, password, resolved, maladie, doctor, sex, age):
+    print("Hereinside")
     with conn.cursor() as cur:
         hashed_password = sha256(password.encode()).hexdigest()
         try:
-            cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_password))
+            cur.execute("INSERT INTO users (username, password_hash, resolved, maladie, doctor, sex, age, email) VALUES (%s, %s, %d, %s, %d, %s, %d, %s)", 
+                        (username, hashed_password, resolved, maladie, doctor, sex, age))
             conn.commit()
         except psycopg2.errors.UniqueViolation:
             print("Username already exists")
             conn.rollback()
+            return False
+        else:
+            print("Username is new")
+            return True
 
 @app.route("/med/video")
 def video():
@@ -189,12 +199,8 @@ def video():
 @app.route("/validate", methods=["post"])
 def validate():
     encoded_username = request.args.get('username')
-    decoded_username = unquote(encoded_username)
     encoded_password = request.args.get('password')
-    decoded_password = unquote(encoded_password)
-    is_valid = auth.check_login(conn, decoded_username, decoded_password)
-    print(decoded_username)
-    print(decoded_password)
+    is_valid = auth.check_login(conn, encoded_username, encoded_password)
     print("valid:",is_valid)
     if is_valid:
         return {"valid": "success"}
@@ -204,12 +210,8 @@ def validate():
 @app.route("/registeruser", methods=["post"])
 def registeruser():
     encoded_username = request.args.get('username')
-    decoded_username = unquote(encoded_username)
     encoded_password = request.args.get('password')
-    decoded_password = unquote(encoded_password)
-    is_valid = auth.check_login(conn, decoded_username, decoded_password)
-    print(decoded_username)
-    print(decoded_password)
+    is_valid = auth.check_login(conn, encoded_username, encoded_password)
     print("valid:",is_valid)
     if is_valid:
         return {"valid": "success"}
