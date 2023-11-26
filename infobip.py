@@ -7,10 +7,11 @@ BASE_URL = "5yepqg.api.infobip.com"
 API_KEY = "App 62c9fac6d1e9b6f0ff03f5748b70c41d-fcdd5640-3818-462d-8fbb-62092496adcb"
 
 SENDER = "InfoSMS"
-MESSAGE_TEXT = "This is a sample message"
 
-def sms(phonenum):
+
+def sms(phonenum, url):
     RECIPIENT = phonenum
+    MESSAGE_TEXT = "Your doctor is ready to meet with you! Join your live video call at: " + url
     conn = http.client.HTTPSConnection(BASE_URL)
 
     payload1 = "{\"messages\":" \

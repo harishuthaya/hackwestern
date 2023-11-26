@@ -1,174 +1,187 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
 <div class="patients-page">
-    <div class="overlap-group-wrapper">
-      <div class="overlap-group">
-        <img class="blops" src="../static/blops.png" />
-        <div class="ellipse"></div>
-        <img class="group" src="../static/group-10.png" />
-        <div class="rectangle"></div>
-        <div class="div"></div>
-        <img class="vector" src="../static/vector-2.svg" />
-        <img class="img" src="../static/vector-1.svg" />
-        <img class="vector-2" src="../static/vector.svg" />
-        <div class="text-wrapper">aid form.</div>
-        <p class="describe-your-issue">
-          describe your issue in as much detail as you can, a doctor will<br />be with you shortly.
-        </p>
-        <div class="rectangle-2"></div>
-        <div class="text-wrapper-2">submit.</div>
-      </div>
-    </div>
+  <div class="overlap-group-wrapper">
+    <form class="overlap-group">
+      <img class="blops" src="../static/blops.png" />
+      <div class="ellipse"></div>
+      <img class="group" src="../static/group-10.png" />
+      <div class="rectangle"></div>
+      <textarea id="input" name="text" class="text" rows="100" cols="50"></textarea>
+      <img class="vector" src="../static/vector-2.svg" />
+      <img class="img" src="../static/vector-1.svg" />
+      <img class="vector-2" src="../static/vector.svg" />
+      <div class="text-wrapper">Describe your symptoms</div>
+      <input type="text" id="text" name="text" class="textbox-container">
+      <!-- <div class="rectangle-2" onclick="clearText()">Submit</div> -->
+      <label type="tel" id="phone1" class="phone">Enter phone number:</label>
+      <input type="tel" id="phone" class="phoneNum" required>
+      <button id="rectangle-2"
+        style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center"
+        class="rectangle-2" onclick="clearText(event)">Submit</a>
+      <div id="messageDisplay" class="text-wrapper-2"></div>
+    </form>
   </div>
+  <script src="{{url_for('static', filename='patient.js')}}"></script>
+</div>
 
-  <style>
-    .patients-page {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  margin-left: -182px;
-  margin-top: -77px;
-}
+<style>
+  .phone {
+    position: absolute;
+    width: 200px;
+    height: 25px;
+    top: 690px;
+    left: 555px;
+  }
+  
+  .phoneNum {
+    position: absolute;
+    width: 150px;
+    height: 25px;
+    top: 715px;
+    left: 550px;
+    background-color: #d7e5f5;
+    border-radius: 20px;
+  }
 
-.patients-page .overlap-group-wrapper {
-  background-color: #ffffff;
-  width: 1440px;
-  height: 1024px;
-}
+  .patients-page {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-left: -150px;
+    margin-top: -77px;
+  }
 
-.patients-page .overlap-group {
-  position: relative;
-  width: 1009px;
-  height: 1024px;
-  left: 232px;
-}
+  .patients-page .overlap-group-wrapper {
+    background-color: #ffffff;
+    width: 1440px;
+    height: 1024px;
+  }
 
-.patients-page .blops {
-  position: absolute;
-  width: 768px;
-  height: 854px;
-  top: 76px;
-  left: 110px;
-}
+  .patients-page .overlap-group {
+    position: relative;
+    width: 1009px;
+    height: 1024px;
+    left: 232px;
+  }
 
-.patients-page .ellipse {
-  position: absolute;
-  width: 81px;
-  height: 81px;
-  top: 889px;
-  left: 448px;
-  background-color: #096bde;
-  border-radius: 40.5px;
-  box-shadow: 0px 4px 63.1px #00000040;
-}
+  .patients-page .blops {
+    position: absolute;
+    width: 768px;
+    height: 854px;
+    top: 76px;
+    left: 110px;
+  }
 
-.patients-page .group {
-  position: absolute;
-  width: 79px;
-  height: 79px;
-  top: 894px;
-  left: 449px;
-}
+  .patients-page .ellipse {
+    position: absolute;
+    width: 81px;
+    height: 81px;
+    top: 889px;
+    left: 448px;
+    background-color: #096bde;
+    border-radius: 40.5px;
+    box-shadow: 0px 4px 63.1px #00000040;
+  }
 
-.patients-page .rectangle {
-  position: absolute;
-  width: 494px;
-  height: 650px;
-  top: 164px;
-  left: 241px;
-  background-color: #0974f1;
-  border-radius: 26px;
-  box-shadow: 0px 4px 86.1px #00000040;
-}
+  .patients-page .group {
+    position: absolute;
+    width: 79px;
+    height: 79px;
+    top: 894px;
+    left: 449px;
+  }
 
-.patients-page .div {
-  position: absolute;
-  width: 441px;
-  height: 535px;
-  top: 252px;
-  left: 267px;
-  background-color: #ffffff;
-  border-radius: 14px;
-}
+  .patients-page .rectangle {
+    position: absolute;
+    width: 494px;
+    height: 650px;
+    top: 164px;
+    left: 241px;
+    background-color: #0974f1;
+    border-radius: 26px;
+    box-shadow: 0px 4px 86.1px #00000040;
+  }
 
-.patients-page .vector {
-  position: absolute;
-  width: 440px;
-  height: 446px;
-  top: 578px;
-  left: 0;
-}
+  .text {
+    position: absolute;
+    font-size: large;
+    width: 435px;
+    height: 535px;
+    top: 270px;
+    left: 265px;
+    background-color: #ffffff;
+    border-radius: 14px;
+  }
 
-.patients-page .img {
-  position: absolute;
-  width: 432px;
-  height: 394px;
-  top: 264px;
-  left: 577px;
-}
 
-.patients-page .vector-2 {
-  position: absolute;
-  width: 448px;
-  height: 333px;
-  top: 0;
-  left: 28px;
-}
+  .patients-page .vector {
+    position: absolute;
+    width: 440px;
+    height: 446px;
+    top: 578px;
+    left: 0;
+  }
 
-.patients-page .text-wrapper {
-  position: absolute;
-  width: 100px;
-  top: 270px;
-  left: 292px;
-  font-family: "Inter", Helvetica;
-  font-weight: 600;
-  color: #0974f1;
-  font-size: 22px;
-  letter-spacing: 0.22px;
-  line-height: normal;
-  white-space: nowrap;
-}
+  .patients-page .img {
+    position: absolute;
+    width: 432px;
+    height: 394px;
+    top: 264px;
+    left: 577px;
+  }
 
-.patients-page .describe-your-issue {
-  position: absolute;
-  width: 253px;
-  top: 301px;
-  left: 292px;
-  font-family: "Inter", Helvetica;
-  font-weight: 600;
-  color: #afafaf;
-  font-size: 8px;
-  letter-spacing: 0.08px;
-  line-height: normal;
-}
+  .patients-page .vector-2 {
+    position: absolute;
+    width: 448px;
+    height: 333px;
+    top: 0;
+    left: 28px;
+  }
 
-.patients-page .rectangle-2 {
-  position: absolute;
-  width: 70px;
-  height: 25px;
-  top: 746px;
-  left: 619px;
-  background-color: #d9d9d9;
-  border-radius: 41px;
-}
+  .patients-page .text-wrapper {
+    position: absolute;
+    width: 100px;
+    top: 235px;
+    left: 280px;
+    font-family: "Inter", Helvetica;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 22px;
+    letter-spacing: 0.22px;
+    line-height: normal;
+    white-space: nowrap;
+  }
 
-.patients-page .text-wrapper-2 {
-  position: absolute;
-  top: 751px;
-  left: 637px;
-  font-family: "Inter", Helvetica;
-  font-weight: 600;
-  color: #0974f1;
-  font-size: 9px;
-  text-align: center;
-  letter-spacing: 0.09px;
-  line-height: normal;
-}
 
-  </style>
+  .rectangle-2 {
+    position: absolute;
+    width: 70px;
+    height: 25px;
+    top: 746px;
+    left: 616px;
+    background-color: #0974f1;
+    color: #ffffff;
+    border-radius: 41px;
+  }
+
+  .patients-page .text-wrapper-2 {
+    position: absolute;
+    top: 500px;
+    left: 300px;
+    font-family: "Inter", Helvetica;
+    font-weight: 50;
+    color: rgb(86, 86, 96);
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 0.09px;
+    line-height: normal;
+  }
+</style>
+
+
 
 {% endblock %}

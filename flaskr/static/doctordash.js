@@ -39,16 +39,17 @@ function populatePatientsTable(patients) {
       row.insertCell(4).innerHTML = patient[8];
       row.insertCell(5).innerHTML = patient[5];
       var connectCell = row.insertCell(6);
-      connectCell.innerHTML = `<a href="javascript:void(0)" onclick="connectToVideo(${patient.id})">Connect</a>`;
+      connectCell.innerHTML = `<a href="javascript:void(0)" onclick="connectToVideo(${patient[10]})">Connect</a>`;
   });
 }
 
-function connectToVideo() {
-  fetch('/api/create/room', {"method": "POST"})
+function connectToVideo(phone) {
+  console.log(phone)
+  fetch('/api/create/room?phoone=' + encodeURIComponent(phone), {"method": "POST"})
         .then(response => response.json())
         .then(data => {
-            // window.open("https://doctor.metered.live/"+data.roomName)
-            window.open("video?roomname="+data.roomName)
+            window.open("https://doctor.metered.live/"+data.roomName)
+            // window.open("video?roomname="+data.roomName)
             // console.log("doctor.metered.live/" + data.roomName)
             // console.log(data.roomName)
         })
@@ -56,67 +57,3 @@ function connectToVideo() {
             console.log(error);
         });
 }
-
-// Need to add validation that a real doctor is logged in.
-
-// function checkLoginStatus() {
-//   var isLoggedIn = getCookie('loggedIn') === 'true';
-
-//   if (isLoggedIn) {
-//       // User is logged in, show authenticated content or redirect to a dashboard
-//       console.log("here")
-//       document.getElementById('signup-container').innerHTML = '<h2>Welcome, User!</h2>';
-//   } else {
-//     //   User is not logged in, show the login form
-//       document.getElementById('signup-container').innerHTML = `
-//       <h2>Sign Up</h2>
-//       <form id="signupForm">
-//           <div class="form-group">
-//               <label for="username">Username:</label>
-//               <input type="text" id="username" name="username" required>
-//           </div>
-//           <div class="form-group">
-//               <label for="password">Password:</label>
-//               <input type="password" id="password" name="password" required>
-//           </div>
-//           <div class="form-group">
-//               <label for="name">Name:</label>
-//               <input type="text" id="name" name="name" required>
-//           </div>
-//           <div class="form-group">
-//               <label for="phone">Phone Number:</label>
-//               <input type="tel" id="phone" name="phone" required>
-//           </div>
-//           <div class="form-group">
-//               <label for="dob">Date of Birth:</label>
-//               <input type="date" id="dob" name="dob" required>
-//           </div>
-//           <div class="form-group">
-//               <label for="gender">Gender:</label>
-//               <select id="gender" name="gender" required>
-//                   <option value="male">Male</option>
-//                   <option value="female">Female</option>
-//                   <option value="other">Other</option>
-//               </select>
-//           </div>
-//           <div class="form-group">
-//               <button type="submit" onclick="signup(event)">Sign Up</button>
-//           </div>
-//           <div class="form-group">
-//               <p  id="signupError" class="error-message"></p>
-//           </div>
-//       </form>
-//       `;
-//   }
-// }
-
-// function getCookie(name) {
-//   var cookies = document.cookie.split(';');
-//   for (var i = 0; i < cookies.length; i++) {
-//       var cookie = cookies[i].trim();
-//       if (cookie.startsWith(name + '=')) {
-//           return cookie.substring(name.length + 1);
-//       }
-//   }
-//   return '';
-// }
