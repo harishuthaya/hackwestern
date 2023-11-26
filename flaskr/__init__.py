@@ -5,6 +5,9 @@ import json
 import psycopg2
 from psycopg2 import sql
 from hashlib import sha256
+from urllib.parse import unquote
+
+sys.path.append('')
 import auth
 from urllib.parse import unquote
 from dotenv import load_dotenv
@@ -41,7 +44,6 @@ def create_room():
     "privacy": "public",
     "ejectAtRoomExp": False,
     "notBeforeUnixSec": 0,
-    "maxParticipants": 0,
     "autoJoin": True,
     "enableRequestToJoin": True,
     "enableChat": True,
@@ -51,7 +53,7 @@ def create_room():
     "recordRoom": True,
     "ejectAfterElapsedTimeInSec": 0,
     "meetingJoinWebhook": "string",
-    "endMeetingAfterNoActivityInSec": 1800,  # Example value for 5 minutes
+    "endMeetingAfterNoActivityInSec": 600,  # Example value for 10 minutes
     "audioOnlyRoom": False
 }
 
@@ -147,6 +149,26 @@ def dashboard():
 
 
 
+# Establish a connection to the database
+def connect_db(config):
+    return psycopg2.connect(**config)
+
+
+def get_unresolved_issues():
+    conn = connect_db(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE resolved = False")
+    issues = cur.fetchall()
+    cur.close()
+    conn.close()
+    return issues
+
+@app.route("/med/dashboard")
+def dashboard():
+    unresolved_issues = get_unresolved_issues()
+    return render_template('dashboard.html', issues=unresolved_issues)
+
+
 # Check login credentials
 def check_login(conn, username, password):
     with conn.cursor() as cur:
@@ -203,9 +225,6 @@ def registeruser():
         return {"valid": "failure"}
     
     
-
-
-
 # Create users table
 def create_users_table(conn):
     with conn.cursor() as cur:
