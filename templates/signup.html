@@ -71,7 +71,8 @@
       <button id="button2" class="button2" onclick="toggleButton(2)">Practitioner</button>
       
       <!-- <div class="text-wrapper-12">Create Medisight Account</div> -->
-      <button id="rectangle-4" class="rectangle-4">Create Medisight Account</button>
+      <a id="rectangle-4" class="rectangle-4" href="{{url_for('doctor') }}">Create Medisight Account</a>
+      <!-- <button id="rectangle-4" class="rectangle-4" href="doctor.html">Create Medisight Account</button> -->
       <div class="text-wrapper-13">Made with ❤️</div>
     </div>
   </div>
@@ -501,7 +502,7 @@
 
       <script>
         var activeButton = null;
-
+        
         function toggleButton(buttonNumber) {
             var button = document.getElementById("button" + buttonNumber);
 
