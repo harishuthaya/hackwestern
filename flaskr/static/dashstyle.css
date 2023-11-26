@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 200px;
+    float: left;
+}
+
+.profile {
+    float: right;
+}
+
+.profile-pic {
+    border-radius: 50%;
+}
+
+.main-content {
+    margin-left: 220px;
+    margin-right: 100px;
+}
