@@ -7,10 +7,6 @@ A readme for medisight **flask** web application.
 
 When we started this project, our primary focus was on **simplicity** and **accessibility**. We stripped away all the features that only contribute to complexity. As a result, our service is very easy to install and use. It also means that it's very easy to contribute new features to this project. If you are interested in contributing, please make a pull request and we will review it as soon as possible.
 
-<h3 align="center">Infobip API Example</h3>
-
-![](https://i.imgur.com/REXf28X.png)
-
 Table of Contents
 -----------------
 
@@ -95,6 +91,12 @@ See:
 
 # Obtaining API Keys
 You will need to obtain appropriate credentials (Client ID, Client Secret, API Key) for API and service provides which you need (Infobip, OpenAI, Metered). See Step 2 in the Getting started section for more info.
+
+<hr>
+
+<h2 align="center">Infobip API Example</h2>
+
+![](https://i.imgur.com/REXf28X.png)
 
 <hr>
 
