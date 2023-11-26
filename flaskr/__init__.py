@@ -13,6 +13,8 @@ sys.path.append('')
 import auth
 from urllib.parse import unquote
 from dotenv import load_dotenv
+from diagnos import diagnosis
+from infobip import sms
 
 load_dotenv()
 
@@ -39,7 +41,7 @@ print("metereddomain:", METERED_DOMAIN)
 # API Route to create a meeting room
 @app.route("/api/create/room", methods=['POST'])
 def create_room():
-    
+    phone = request.args.get('phone')
     url = "https://" + METERED_DOMAIN + "/api/v1/room/" + "?secretKey=" + METERED_SECRET_KEY
     
     payload = {
@@ -57,6 +59,7 @@ def create_room():
     "meetingJoinWebhook": "string",
     "endMeetingAfterNoActivityInSec": 600,  # Example value for 10 minutes
     "audioOnlyRoom": False
+
 }
 
     headers = {
@@ -66,6 +69,7 @@ def create_room():
         
     r = requests.post(url, json=payload, headers=headers)
     x = r.json()
+    sms(phone, 'https://doctor.metered.live/'+x["roomName"])
     return {'roomName': x["roomName"]}
 
 
@@ -199,6 +203,23 @@ def register_user(conn, username, password, resolved, maladie, doctor, sex, age,
         else:
             print("Username is new")
             return True
+
+@app.route("/updatinguser", methods=["post"])
+def updatinguser():
+    username = request.args.get('username')
+    symptoms = request.args.get('symptoms')
+    phone = request.args.get('phonenumber')
+
+    maladie = diagnosis(symptoms)
+    with conn.cursor() as cur:
+        try:
+            cur.execute("UPDATE users SET maladie = %s, phone = %s WHERE username = %s", (maladie, phone, username))
+            conn.commit()
+        except psycopg2.errors.UniqueViolation:
+            print("Error updating")
+            conn.rollback()
+        else:
+            return "success"
 
 @app.route("/validatesignup", methods=["post"])
 def validatesignup():
