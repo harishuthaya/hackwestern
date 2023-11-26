@@ -108,7 +108,7 @@ You will need to obtain appropriate credentials (Client ID, Client Secret, API K
 - Then click on *APIs & auth* in the sidebar and select *API* tab
 - Click on **Google SQL API** under *SQL*, then click **Enable API**
  - **Application Type**: Web Application
- - **Authorized Flask origins**: set to your BASE_URL value (i.e. `http://localhost:8080`, etc)
+ - **Authorized Flask origins**: set to your BASE_URL value (i.e. `http:127.0.0.1:5000`, etc)
 
 <hr>
 
