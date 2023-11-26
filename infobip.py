@@ -14,11 +14,18 @@ def sms(phonenum, url):
     MESSAGE_TEXT = "Your doctor is ready to meet with you! Join your live video call at: " + url
     conn = http.client.HTTPSConnection(BASE_URL)
 
-    payload1 = "{\"messages\":" \
-            "[{\"from\":\"" + SENDER + "\"" \
-            ",\"destinations\":" \
-            "[{\"to\":\"" + RECIPIENT + "\"}]," \
-            "\"text\":\"" + MESSAGE_TEXT + "\"}]}"
+    payload_dict = {
+        "messages": [
+            {
+                "from": SENDER,
+                "destinations": [
+                    {"to": RECIPIENT}
+                ],
+                "text": MESSAGE_TEXT
+            }
+        ]
+    }
+    payload1 = json.dumps(payload_dict)
 
     headers = {
         'Authorization': API_KEY,

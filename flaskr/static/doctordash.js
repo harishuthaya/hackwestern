@@ -45,7 +45,7 @@ function populatePatientsTable(patients) {
 
 function connectToVideo(phone) {
   console.log(phone)
-  fetch('/api/create/room?phoone=' + encodeURIComponent(phone), {"method": "POST"})
+  fetch('/api/create/room?phone=' + encodeURIComponent(phone), {"method": "POST"})
         .then(response => response.json())
         .then(data => {
             window.open("https://doctor.metered.live/"+data.roomName)
