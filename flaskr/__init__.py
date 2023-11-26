@@ -146,7 +146,7 @@ def get_patients():
 @app.route("/med/dashboard")
 def dashboard():
     unresolved_issues = get_unresolved_issues()
-    return render_template('dashboard.html', issues=unresolved_issues)
+    return render_template('doctor.html', issues=unresolved_issues)
 
 
 
