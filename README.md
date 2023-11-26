@@ -86,8 +86,6 @@ After completing step 1 and locally installing Postgresql, you should be able to
 **Step 3:** Develop your application and customize the experience
 
 **Step 4:** Optional - deploy to production
-See:
-- [Deployment](#deployment)
 
 # Obtaining API Keys
 You will need to obtain appropriate credentials (Client ID, Client Secret, API Key) for API and service provides which you need (Infobip, OpenAI, Metered). See Step 2 in the Getting started section for more info.
