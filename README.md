@@ -3,11 +3,11 @@
 
 **Live Demo**: [Link](http:127.0.0.1:5000)
 
-A boilerplate for **flask** web applications.
+A readme for medisight **flask** web application.
 
 When we started this project, our primary focus was on **simplicity** and **accessibility**. We stripped away all the features that only contribute to complexity. As a result, our service is very easy to install and use. It also means that it's very easy to contribute new features to this project. If you are interested in contributing, please make a pull request and we will review it as soon as possible.
 
-<h4 align="center">Infobip API Example</h4>
+<h3 align="center">Infobip API Example</h3>
 
 ![](https://i.imgur.com/REXf28X.png)
 
