@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<style>
+    table, th, td {
+        border:1px solid black;
+    }
+</style>
+<head>
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Doctor Dashboard</h1>
+    <h2>Unresolved Patients</h2>
+    <table style="width:100%" id="patientsTable">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Sex</th>
+          <th>Maladie</th>
+          <th>Country</th>
+          <th>Meeting</th>
+        </tr>
+    </table>
+    <script src="{{url_for('static', filename='doctordash.js')}}"></script>
+</body>
+
+</html>

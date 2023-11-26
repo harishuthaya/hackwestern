@@ -9,6 +9,10 @@ from urllib.parse import unquote
 
 sys.path.append('')
 import auth
+from urllib.parse import unquote
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -28,6 +32,7 @@ db_config = {
 METERED_SECRET_KEY = os.environ.get("METERED_SECRET_KEY")
 # Metered Domain
 METERED_DOMAIN = os.environ.get("METERED_DOMAIN")
+print("metereddomain:", METERED_DOMAIN)
 
 # API Route to create a meeting room
 @app.route("/api/create/room", methods=['POST'])
@@ -59,7 +64,7 @@ def create_room():
         
     r = requests.post(url, json=payload, headers=headers)
     x = r.json()
-    return x["roomName"]
+    return {'roomName': x["roomName"]}
 
 
 
@@ -107,6 +112,42 @@ def login():
 def signup():
     return render_template("signup.html", app_data=app_data)
 
+@app.route("/doctordash")
+def doctordash():
+    return render_template("dashboard.html", app_data=app_data, issue="hello")
+
+
+# Establish a connection to the database
+def connect_db(config):
+    return psycopg2.connect(**config)
+
+
+def get_unresolved_issues():
+    conn = conn = connect_db(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM issues WHERE resolved = False")
+    issues = cur.fetchall()
+    cur.close()
+    conn.close()
+    return issues
+
+@app.route("/api/get/patients", methods=["POST"])
+def get_patients():
+    # as of now, provides all patients, but needs to validate req is from doc
+    conn = conn = connect_db(db_config)
+    cur = conn.cursor()
+    with conn.cursor() as cur:
+        print("hello!")
+        cur.execute("SELECT * FROM users WHERE doctor = false")
+        result = cur.fetchall()
+        return result
+
+@app.route("/med/dashboard")
+def dashboard():
+    unresolved_issues = get_unresolved_issues()
+    return render_template('dashboard.html', issues=unresolved_issues)
+
+
 
 # Establish a connection to the database
 def connect_db(config):
@@ -148,6 +189,11 @@ def register_user(conn, username, password):
             print("Username already exists")
             conn.rollback()
 
+@app.route("/video")
+def video():
+    roomName = request.args.get('roomname')
+    return render_template("video.html", app_data=app_data, roomName=roomName)
+
 @app.route("/validate", methods=["post"])
 def validate():
     encoded_username = request.args.get('username')
@@ -177,8 +223,8 @@ def registeruser():
         return {"valid": "success"}
     else:
         return {"valid": "failure"}
-
-
+    
+    
 # Create users table
 def create_users_table(conn):
     with conn.cursor() as cur:
