@@ -129,6 +129,17 @@ def get_unresolved_issues():
     conn.close()
     return issues
 
+@app.route("/api/get/patients", methods=["POST"])
+def get_patients():
+    # as of now, provides all patients, but needs to validate req is from doc
+    conn = conn = connect_db(db_config)
+    cur = conn.cursor()
+    with conn.cursor() as cur:
+        print("hello!")
+        cur.execute("SELECT * FROM users WHERE doctor = false")
+        result = cur.fetchall()
+        return result
+
 @app.route("/med/dashboard")
 def dashboard():
     unresolved_issues = get_unresolved_issues()
