@@ -167,6 +167,11 @@ def register_user(conn, username, password):
             print("Username already exists")
             conn.rollback()
 
+@app.route("/video")
+def video():
+    roomName = request.args.get('roomname')
+    return render_template("video.html", app_data=app_data, roomName=roomName)
+
 @app.route("/validate", methods=["post"])
 def validate():
     encoded_username = request.args.get('username')

@@ -47,7 +47,8 @@ function connectToVideo() {
   fetch('/api/create/room', {"method": "POST"})
         .then(response => response.json())
         .then(data => {
-            window.open("https://doctor.metered.live/"+data.roomName)
+            // window.open("https://doctor.metered.live/"+data.roomName)
+            window.open("video?roomname="+data.roomName)
             // console.log("doctor.metered.live/" + data.roomName)
             // console.log(data.roomName)
         })
