@@ -69,6 +69,16 @@ def create_room():
         
     r = requests.post(url, json=payload, headers=headers)
     x = r.json()
+
+    with conn.cursor() as cur:
+        try:
+            cur.execute("UPDATE users SET resolved = false WHERE phone = %s", 
+                        (phone,))
+            conn.commit()
+        except psycopg2.errors.UniqueViolation:
+            conn.rollback()
+
+
     sms(phone, 'https://doctor.metered.live/'+x["roomName"])
     return {'roomName': x["roomName"]}
 
@@ -144,7 +154,7 @@ def get_patients():
     cur = conn.cursor()
     with conn.cursor() as cur:
         print("hello!")
-        cur.execute("SELECT * FROM users WHERE doctor = false")
+        cur.execute("SELECT * FROM users WHERE doctor = false AND resolved = false")
         result = cur.fetchall()
         return result
 

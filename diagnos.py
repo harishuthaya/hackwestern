@@ -1,7 +1,9 @@
 from openai import OpenAI
 import os
 
-client = OpenAI(api_key='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')
+API_KEY = os.environ.get("OPENAI_API_KEY")
+client = OpenAI(api_key=API_KEY)
+
 
 def diagnosis(info):
   completion = client.chat.completions.create(

@@ -4,7 +4,8 @@ import http
 import os
 
 BASE_URL = "5yepqg.api.infobip.com"
-API_KEY = "App 62c9fac6d1e9b6f0ff03f5748b70c41d-fcdd5640-3818-462d-8fbb-62092496adcb"
+API_KEY = os.environ.get("INFOBIP_API_KEY")
+#if code breaks, check here
 
 SENDER = "InfoSMS"
 
