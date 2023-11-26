@@ -1,9 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
 <div class="signup">
-  <div class="overlap-wrapper">
+  <form class="overlap-wrapper">
     <div class="overlap">
       <img class="blops" src="../static/blops.png" />
       <div class="boxes">
@@ -19,13 +18,13 @@
         </p>
       </div>
       <div class="text-wrapper-3">MEDISIGHT</div>
+      <div class="email-2">
+        <div class="text-wrapper-4">Full Name</div>
+          <input type="text" id="fullname" name="fullName" required>
+      </div>
       <div class="email">
         <div class="text-wrapper-4">Email</div>
         <input type="text" id="email" name="email" required>
-      </div>
-      <div class="email-2">
-        <div class="text-wrapper-4">Full Name</div>
-          <input type="text" id="fullName" name="fullName" required>
       </div>
       <div class="username">
         <div class="text-wrapper-4">Username</div>
@@ -43,40 +42,42 @@
       <div class="text-wrapper-6">Date of Birth</div>
       
       <div class="text-wrapper-7">Account Type</div>
-      <p class="by-creating-an">
-        <span class="text-wrapper-8">By creating an account, I agree to the </span>
-        <a href="https://www.postman.com/legal/eula" target="_blank" rel="noopener noreferrer"
-          ><span class="text-wrapper-9">Terms</span></a
-        >
-        <span class="text-wrapper-8"> and</span>
-        <span class="text-wrapper-10">&nbsp;</span>
-        <a href="https://www.postman.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer"
-          ><span class="text-wrapper-9">Privacy Policy</span></a
-        >
-        <span class="text-wrapper-10">.</span>
-      </p>
       
+      <div class="text-wrapper-6">Date of Birth</div>
+        <input type="date" id="dob" name="dob" class="rectangle-2" required>
         <div class="text-wrapper-11">Sex</div>
-          <input type="text" id="sexe" name="sexe" class="rectangle-3" required>
+          <input type="text" id="sex" name="sex" class="rectangle-3" required>
       
       
 
-      <div class="text-wrapper-6">Date of Birth</div>
-        <input type="date" id="dob" name="dob" class="rectangle-2" required>
+          <p class="by-creating-an">
+            <span class="text-wrapper-8">By creating an account, I agree to the </span>
+            <a href="https://www.postman.com/legal/eula" target="_blank" rel="noopener noreferrer"
+              ><span class="text-wrapper-9">Terms</span></a
+            >
+            <span class="text-wrapper-8"> and</span>
+            <span class="text-wrapper-10">&nbsp;</span>
+            <a href="https://www.postman.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer"
+              ><span class="text-wrapper-9">Privacy Policy</span></a
+            >
+            <span class="text-wrapper-10">.</span>
+          </p>
       <div class="rectangle-4"></div>
       
       <img class="undraw-doctor-kw-l" src="../static/undraw-doctor-kw-5-l-1.svg" />
       <img class="untitled" src="../static/untitled-1.png" />
       <img class="broken-bone" src="../static/broken-bone-1-1.png" />
-      <button id="button1" class="button1" onclick="toggleButton(1)">Patient</button>
-      <button id="button2" class="button2" onclick="toggleButton(2)">Practitioner</button>
+      <button type="button" id="button1" class="button1" onclick="toggleButton(1)">Patient</button>
+      <button type="button" id="button2" class="button2" onclick="toggleButton(2)">Practitioner</button>
       
       <!-- <div class="text-wrapper-12">Create Medisight Account</div> -->
-      <a id="rectangle-4" class="rectangle-4" href="{{url_for('dashboard') }}">Create Medisight Account</a>
+      <Button id="rectangle-4" class="rectangle-4" onclick="signup(event, activeButton)">Create Medisight Account</Button>
       <!-- <button id="rectangle-4" class="rectangle-4" href="doctor.html">Create Medisight Account</button> -->
       <div class="text-wrapper-13">Made with ❤️</div>
     </div>
-  </div>
+  </form>
+  <script src="{{url_for('static', filename='signup.js')}}"></script>
+</div>
 </div>
 
 
@@ -523,6 +524,5 @@
             }
         }
     </script>
->>>>>>> main
 
 {% endblock %}

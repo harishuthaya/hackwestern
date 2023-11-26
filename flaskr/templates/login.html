@@ -14,25 +14,22 @@
             <div class="text-wrapper-3">MEDISIGHT</div>
             <div class="email">
                 <div class="text-wrapper-4">Username/Email</div>
-                <input type="text" id="name" name="name" class="name-rect" required>
+                <input type="text" id="username" name="username" class="name-rect" required>
             </div>
             <div class="email-2">
                 <div class="text-wrapper-4">Password</div>
                 <input type="password" id="password" name="password" class="name-rect" required>
             </div>
+
             <img class="untitled" src="../static/untitled-1.png" />
-            <div class="group">
-                <div class="text-wrapper-5">
-                    <a id="text-wrapper-5" class="text-wrapper-5" href="{{url_for('patient') }}">Log in to Medisight</a></div>
-            </div>
+            <button id="group" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center" class="group" onclick="login()">Log in to Medisight Account</button>
+
+
             <div class="rectangle"></div>
             <input type="checkbox" id="remember" name="remember" class="rectangle">
             <p class="remember-username">
                 <span class="text-wrapper-2">Remember </span>
                 <span class="text-wrapper-6">username</span>
-                
-                    
-                
                 
             </p>
             <div class="rectangle-2"></div>
@@ -41,9 +38,9 @@
                 <span class="text-wrapper-2">Keep my signed in for </span>
                 <span class="text-wrapper-6">7 days</span>
             </p>
-            <div class="text-wrapper-7">Made with ❤️</div>
             <img class="undraw-doctor-kw-l" src="../static/undraw-doctor-kw-5-l-1.svg" />
         </div>
+        <script src="{{url_for('static', filename='login.js')}}"></script>
     </div>
 </div>
 
@@ -211,7 +208,7 @@
   border-radius: 7px;
 }
 
-.login .text-wrapper-5 {
+.group {
   position: absolute;
   top: 13px;
   left: 137px;
@@ -222,6 +219,11 @@
   letter-spacing: 0.12px;
   line-height: normal;
   white-space: nowrap;
+}
+
+.group:hover{
+  background-color: rgb(142, 178, 231);
+  color: rgb(245, 243, 248);
 }
 
 .login .rectangle {

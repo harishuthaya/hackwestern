@@ -7,6 +7,7 @@ import psycopg2
 from psycopg2 import sql
 from hashlib import sha256
 from urllib.parse import unquote
+from datetime import datetime
 
 sys.path.append('')
 import auth
@@ -146,7 +147,7 @@ def get_patients():
 @app.route("/med/dashboard")
 def dashboard():
     unresolved_issues = get_unresolved_issues()
-    return render_template('doctor.html', issues=unresolved_issues)
+    return render_template('doctor.html', app_data=app_data, issues=unresolved_issues)
 
 
 
@@ -174,14 +175,22 @@ def check_login(conn, username, password):
             return True
         return False
 
+def calculate_age(dob):
+    # Assuming dob is in the format 'YYYY-MM-DD'
+    dob_date = datetime.strptime(dob, '%Y-%m-%d')
+    today = datetime.now()
+    age = today.year - dob_date.year - ((today.month, today.day) < (dob_date.month, dob_date.day))
+    return age
+
+
 # Register a new user
-def register_user(conn, username, password, resolved, maladie, doctor, sex, age):
+def register_user(conn, username, password, resolved, maladie, doctor, sex, age, name, email):
     print("Hereinside")
     with conn.cursor() as cur:
         hashed_password = sha256(password.encode()).hexdigest()
         try:
-            cur.execute("INSERT INTO users (username, password_hash, resolved, maladie, doctor, sex, age, email) VALUES (%s, %s, %d, %s, %d, %s, %d, %s)", 
-                        (username, hashed_password, resolved, maladie, doctor, sex, age))
+            cur.execute("INSERT INTO users (name, email, username, password_hash, age, sex, resolved, maladie, doctor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", 
+                        (name, email, username, hashed_password, age, sex, resolved, maladie, doctor))
             conn.commit()
         except psycopg2.errors.UniqueViolation:
             print("Username already exists")
@@ -191,32 +200,59 @@ def register_user(conn, username, password, resolved, maladie, doctor, sex, age)
             print("Username is new")
             return True
 
-@app.route("/med/video")
-def video():
-    roomName = request.args.get('roomname')
-    return render_template("video.html", app_data=app_data, roomName=roomName)
-
-@app.route("/validate", methods=["post"])
-def validate():
+@app.route("/validatesignup", methods=["post"])
+def validatesignup():
     encoded_username = request.args.get('username')
     encoded_password = request.args.get('password')
-    is_valid = auth.check_login(conn, encoded_username, encoded_password)
+    resolved = False
+    maladie = None
+    doctor = request.args.get('doctor')
+    sex = request.args.get('sex')
+    dob = request.args.get('dob')
+    age = calculate_age(dob)
+    name = request.args.get('fullname')
+    email = request.args.get('email')
+    is_valid = register_user(conn, encoded_username, encoded_password,
+                             resolved, maladie, doctor, sex, age, name, email)
     print("valid:",is_valid)
     if is_valid:
         return {"valid": "success"}
     else:
         return {"valid": "failure"}
     
-@app.route("/registeruser", methods=["post"])
-def registeruser():
+def check_login(conn, username, password):
+    with conn.cursor() as cur:
+        cur.execute("SELECT password_hash FROM users WHERE username = %s", (username,))
+        result = cur.fetchone()
+        if result and result[0] == sha256(password.encode()).hexdigest():
+            return True
+        return False
+
+@app.route("/validatelogin", methods=["post"])
+def validatelogin():
     encoded_username = request.args.get('username')
     encoded_password = request.args.get('password')
-    is_valid = auth.check_login(conn, encoded_username, encoded_password)
+    is_valid = check_login(conn, encoded_username, encoded_password)
     print("valid:",is_valid)
+    doc = "false"
+    if (is_valid):
+        doc = get_doc(encoded_username)
     if is_valid:
-        return {"valid": "success"}
+        return {"valid": "success", "doctor": doc}
     else:
         return {"valid": "failure"}
+    
+def get_doc(username):
+    cur = conn.cursor()
+    print("username", username)
+    print("type of username:", type(username))
+    cur.execute("SELECT doctor FROM users WHERE username = %s", (username,))
+    return cur.fetchone()
+
+@app.route("/med/video")
+def video():
+    roomName = request.args.get('roomname')
+    return render_template("video.html", app_data=app_data, roomName=roomName)
     
     
 # Create users table
