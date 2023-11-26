@@ -127,12 +127,12 @@ Project Structure
 | **templates**/login.html           | Login webpage with login form.                               |  
 | **templates**/signup.html          | Sign-up webpage with sign-up form.                           |             
 | .env                               | Environment variables & API keys.                            |
-| app.py                             | Folder and files ignored by docker usage.                    |
-| auth.py                            | Your API keys, tokens, passwords and database URI.           |
-| diagnos.py                         | Rules for eslint linter.                                     |
-| infobip.py                         | Folder and files ignored by git.                             |
-| webRTC.py                          | The main application file.                                   |
-| README.md                          | Docker compose configuration file.                           |
+| app.py                             | Test flask webserver instance for debugging.                 |
+| auth.py                            | Database and Webserver authentication.                       |
+| diagnos.py                         | AI driven medical diagnosis.                                 |
+| infobip.py                         | Infobip testing and function declaration.                    |
+| webRTC.py                          | webRTC with Metered API, main functions.                     |
+| README.md                          | Repository README.md file (this file).                       |
 
 
 **Note:** There is no preference for how you name or structure your views.
