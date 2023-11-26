@@ -1,4 +1,5 @@
 import os
+import sys
 import requests
 from flask import Flask, request, render_template
 import json
@@ -112,10 +113,6 @@ def login():
 def signup():
     return render_template("signup.html", app_data=app_data)
 
-@app.route("/doctordash")
-def doctordash():
-    return render_template("dashboard.html", app_data=app_data, issue="hello")
-
 
 # Establish a connection to the database
 def connect_db(config):
@@ -163,11 +160,6 @@ def get_unresolved_issues():
     conn.close()
     return issues
 
-@app.route("/med/dashboard")
-def dashboard():
-    unresolved_issues = get_unresolved_issues()
-    return render_template('dashboard.html', issues=unresolved_issues)
-
 
 # Check login credentials
 def check_login(conn, username, password):
@@ -189,7 +181,7 @@ def register_user(conn, username, password):
             print("Username already exists")
             conn.rollback()
 
-@app.route("/video")
+@app.route("/med/video")
 def video():
     roomName = request.args.get('roomname')
     return render_template("video.html", app_data=app_data, roomName=roomName)
