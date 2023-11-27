@@ -72,8 +72,7 @@ def create_room():
 
     with conn.cursor() as cur:
         try:
-            cur.execute("UPDATE users SET resolved = false WHERE phone = %s", 
-                        (phone,))
+            cur.execute("UPDATE users SET resolved = true WHERE phone = %s", (phone,))
             conn.commit()
         except psycopg2.errors.UniqueViolation:
             conn.rollback()
@@ -137,15 +136,6 @@ def patient():
 def connect_db(config):
     return psycopg2.connect(**config)
 
-
-def get_unresolved_issues():
-    conn = conn = connect_db(db_config)
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM issues WHERE resolved = False")
-    issues = cur.fetchall()
-    cur.close()
-    conn.close()
-    return issues
 
 @app.route("/api/get/patients", methods=["POST"])
 def get_patients():
